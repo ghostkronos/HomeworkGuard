@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>HomeworkGuard.Core</RootNamespace>
+    <AssemblyName>HomeworkGuard.Core</AssemblyName>
+  </PropertyGroup>
+</Project>

@@ -577,27 +577,24 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void CaptureWebcam_Click(object sender, RoutedEventArgs e)
+    private void CaptureWebcam_Click(object sender, RoutedEventArgs e)
     {
-        CaptureWebcamBtn.IsEnabled = false;
-        var captured = await _webcam.CapturePhotoAsync();
-        CaptureWebcamBtn.IsEnabled = true;
-
-        if (captured is null)
+        var previewDialog = new CameraPreviewWindow { Owner = this };
+        if (previewDialog.ShowDialog() != true ||
+            previewDialog.CapturedJpegBytes is null ||
+            previewDialog.CapturedPreview is null)
         {
-            SelectedFileInfoText.Text = _webcam.StatusMessage;
-            SelectedFileInfoText.Foreground = new SolidColorBrush(Color.FromRgb(252, 211, 77));
             return;
         }
 
-        _selectedBytes = captured.Value.JpegBytes;
+        _selectedBytes = previewDialog.CapturedJpegBytes;
         _selectedFileName = $"webcam_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
         _selectedMimeType = "image/jpeg";
         SelectedFileInfoText.Text = $"{_selectedFileName} • {_selectedBytes.Length / 1024.0:F1} KB";
         SelectedFileInfoText.Foreground = new SolidColorBrush(Color.FromRgb(94, 234, 212));
         ReportClientActivity("WEBCAM_CAPTURED", $"Kameradan fotoğraf çekildi: {_selectedFileName}");
 
-        PreviewImage.Source = captured.Value.Preview;
+        PreviewImage.Source = previewDialog.CapturedPreview;
         PreviewImage.Visibility = Visibility.Visible;
         PreviewPlaceholderPanel.Visibility = Visibility.Collapsed;
     }

@@ -190,7 +190,9 @@ public sealed class GeminiHomeworkEvaluator
             primaryModel,
             "gemini-3.5-flash-lite",
             "gemini-flash-lite-latest",
-            "gemini-3.6-flash"
+            "gemini-3.6-flash",
+            "gemini-2.5-flash-lite",
+            "gemini-2.5-flash"
         }.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
 
         Exception? lastEx = null;
@@ -241,6 +243,10 @@ public sealed class GeminiHomeworkEvaluator
                msg.Contains("503", StringComparison.OrdinalIgnoreCase) ||
                msg.Contains("429", StringComparison.OrdinalIgnoreCase) ||
                msg.Contains("404", StringComparison.OrdinalIgnoreCase) ||
+               msg.Contains("403", StringComparison.OrdinalIgnoreCase) ||
+               msg.Contains("PERMISSION_DENIED", StringComparison.OrdinalIgnoreCase) ||
+               msg.Contains("does not have access", StringComparison.OrdinalIgnoreCase) ||
+               msg.Contains("not enabled", StringComparison.OrdinalIgnoreCase) ||
                msg.Contains("UNAVAILABLE", StringComparison.OrdinalIgnoreCase) ||
                msg.Contains("NOT_FOUND", StringComparison.OrdinalIgnoreCase) ||
                msg.Contains("no longer available", StringComparison.OrdinalIgnoreCase) ||
